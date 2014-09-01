@@ -46,18 +46,18 @@ git clone https://github.com/yaroslav-ulanovych/findnumimg
 cd findnumimg
 {% endhighlight %}
 
-I created a tag specially for this article, cause the project may change
-in future
+I created a branch specially for this article, cause the project may change in future
 
 {% highlight bash %}
 git checkout for-pre-proguard-scala-library-for-android-with-maven-blog-post
 {% endhighlight %}
 
 Build instructions
+------------------
+
+You should be able to [build android applications with maven][android-dev.html]. In short you need to install android sdk, then clone [Maven Android SDK Deployer][maven-android-sdk-deployer] and perform `mvn install` in folders `maven-android-sdk-deployer/platforms/android-15` and `maven-android-sdk-deployer/extras/compatibility-v4`. Also [dex2jar][dex2jar] should be installed and available in path.
 
 {% highlight bash %}
-cd findnumimg
-
 # first install the parent pom
 # -N says not to install submodules
 mvn install -N
@@ -107,13 +107,14 @@ scala-library module
 --------------------
 
 Module produces a jar artifact which contains shrunk scala library. That is
-just five console commands but in maven it's a hundred of lines in xml.
+just five console commands but in maven it's a hundred of lines of xml.
 There may exist a nicer way, but I'm not a maven expert. Nevertheless, it does the job.
 
 [Tool][dex2jar] that I use to convert dex to jar names differently in Windows
 and Linux, fixing that.
 
 {% highlight xml %}
+...
 <profiles>
     <profile>
         <id>Windows</id>
@@ -126,6 +127,7 @@ and Linux, fixing that.
         <properties><dex2jarExecutable>d2j-dex2jar.sh</dex2jarExecutable></properties>
     </profile>
 </profiles>
+...
 {% endhighlight %}
 
 Don't pay attention at phases plugins are bound to, I had problems running the
@@ -163,8 +165,7 @@ unzip apk
 ...
 {% endhighlight %}
 
-convert classes.dex to jar via [dex2jar][dex2jar] (should be installed and
-available in path)
+convert classes.dex to jar via [dex2jar][dex2jar]
 
 {% highlight xml %}
 ...
@@ -233,9 +234,7 @@ library in proguard profile
 ...
 {% endhighlight %}
 
-Parser combinators are a separate module, not part of scala library but I
-include them in shrunk scala library (you obviously may not need them,
-it just happened that my project requires some parsing)
+Parser combinators are a separate module, not part of scala library but I include them in shrunk scala library (you obviously may not need them, it just happened that my project requires some parsing) so we exclude it too.
 
 {% highlight xml %}
 ...
@@ -294,12 +293,14 @@ Give proguarded apk a classifier to distinct it from a full one
 That's almost it, just one strange moment more
 
 {% highlight xml %}
+...
 <dependency>
     <groupId>org.scala-lang</groupId>
     <artifactId>scala-library</artifactId>
     <version>${scalaVersionFull}</version>
     <scope>provided</scope>
 </dependency>
+...
 {% endhighlight %}
 
 I had troubles compiling the project without original scala library in dependencies,
@@ -309,9 +310,11 @@ So I just added scala library with provided scope.
 
 Conclusions
 ===========
+This is not a perfect solution, cause it complicates project structure, and is not fully atomated, but it works, it saves my time, and hopefully will save yours. If there is a plugin or a build tool that does job better, please let us know. May the Force be with you.
 
 
 
-
+[maven-android-sdk-deployer]: https://github.com/mosabua/maven-android-sdk-deployer
+[android-dev.html]: http://books.sonatype.com/mvnref-book/reference/android-dev-sect-config-build.html#android-dev-sect-repository-install
 [dex2jar]: https://code.google.com/p/dex2jar
 [cantdeactivatedependencies]: http://stackoverflow.com/a/1790230/1351319
