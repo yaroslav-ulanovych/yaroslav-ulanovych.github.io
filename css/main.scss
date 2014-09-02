@@ -1,49 +1,47 @@
 ---
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
-@charset "utf-8";
 
+$linkColor: hsl(73,66%,30%);
 
+body {
+	background-image: url('/images/ricepaper_v3.png');
+	margin-right: auto;
+	margin-left: auto;
+	width: 600px;
+	font-family: 'Lato', sans-serif;
+	font-size: large;
+}
 
-// Our variables
-$base-font-family: Helvetica, Arial, sans-serif;
-$base-font-size:   16px;
-$small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
-
-$spacing-unit:     30px;
-
-$text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
-
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-$on-palm:          600px;
-$on-laptop:        800px;
-
-
-
-// Using media queries with like this:
-// @include media-query($palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
+code {
+//	font-family: 'Source Sans Pro', ;
+//	font-family: 'Droid Sans Mono', ;
+	font-family: 'Inconsolata', ;
+	font-size: medium;
 }
 
 
 
-// Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "base",
-        "layout",
-        "syntax-highlighting"
-;
+a {
+	color: $linkColor;
+	text-decoration: none;
+}
+
+pre {
+	overflow-x: auto;
+}
+
+h1 {
+	font-size: xx-large;
+}
+
+h2 {
+	font-size: x-large;
+}
+
+// need this for synrax highlighting
+%vertical-rhythm {
+    margin-bottom: 15px;
+}
+
+@import "syntax-highlighting";

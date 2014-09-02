@@ -1,8 +1,9 @@
 ---
 layout: post
 title:  "Pre proguard scala library for android with maven"
-date:   2014-08-18 11:19:28
-categories: scala android proguard maven
+tags: scala android proguard maven
+author: Yaroslav Ulanovych
+permalink: pre-proguard-scala-library-for-android-with-maven.html
 ---
 
 Intro
