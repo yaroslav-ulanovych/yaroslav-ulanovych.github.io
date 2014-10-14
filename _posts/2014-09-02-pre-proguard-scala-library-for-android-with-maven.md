@@ -43,14 +43,8 @@ Sample project
 There is an example project where you can see all the details
 
 {% highlight bash %}
-git clone https://github.com/yaroslav-ulanovych/findnumimg
-cd findnumimg
-{% endhighlight %}
-
-I created a branch specially for this article, cause the project may change in future
-
-{% highlight bash %}
-git checkout for-pre-proguard-scala-library-for-android-with-maven-blog-post
+git clone https://github.com/yaroslav-ulanovych/pre-proguard-scala-library-for-android-with-maven-example
+cd pre-proguard-scala-library-for-android-with-maven-example
 {% endhighlight %}
 
 Build instructions
@@ -65,10 +59,7 @@ mvn install -N
 
 # install other modules
 
-cd core
-mvn install
-
-cd ../androidapp-deps
+cd androidapp-deps
 mvn install
 
 # build android app with proguard
@@ -95,13 +86,10 @@ mvn android:deploy android:run
 Maven configuration
 ===================
 
-Project consists of a parent project and four modules: core, scala-library,
+Project consists of a parent project and three modules: scala-library,
 androidapp and androidapp-deps. There is nothing interesting about parent
-project, it's ordinary, just common settings for submodules. Core project 
-contains application code that is not android specific.
-In fact you can put it's code in androidapp project and get rid of core and
-parent projects, those are just my enterprise habits.
-So real magic happens in androidapp, androidapp-deps and scala-library modules
+project, it's ordinary, just common settings for submodules.
+Real magic happens in androidapp, androidapp-deps and scala-library modules
 (and if maven was a bit smarter, we could get rid of andoidapp-deps module too).
 
 scala-library module
@@ -144,7 +132,7 @@ First, copy proguarded apk from local repository to build directory
         <id>copy apk</id>
 ...
                 <artifactItem>
-                    <groupId>com.mahpella.findnumimg</groupId>
+                    <groupId>com.example.preproguard</groupId>
                     <artifactId>androidapp</artifactId>
                     <version>${version}</version>
                     <classifier>proguard</classifier>
@@ -223,7 +211,7 @@ library in proguard profile
 {% highlight xml %}
 ...
 <dependency>
-    <groupId>com.mahpella.findnumimg</groupId>
+    <groupId>com.example.preproguard</groupId>
     <artifactId>androidapp-deps</artifactId>
     <version>1.0-SNAPSHOT</version>
     <type>pom</type>
@@ -232,19 +220,6 @@ library in proguard profile
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
         </exclusion>
-...
-{% endhighlight %}
-
-Parser combinators are a separate module, not part of scala library but I include them in shrunk scala library (you obviously may not need them, it just happened that my project requires some parsing) so we exclude it too.
-
-{% highlight xml %}
-...
-        <exclusion>
-            <groupId>org.scala-lang.modules</groupId>
-            <artifactId>scala-parser-combinators_${scalaVersion}</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
 ...
 {% endhighlight %}
 
@@ -262,13 +237,13 @@ Exclude shrunk scala library and include orignal one in proguard profile
                 <version>${scalaVersionFull}</version>
             </dependency>
             <dependency>
-                <groupId>com.mahpella.findnumimg</groupId>
+                <groupId>com.example.preproguard</groupId>
                 <artifactId>androidapp-deps</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <type>pom</type>
                 <exclusions>
                     <exclusion>
-                        <groupId>com.mahpella.findnumimg</groupId>
+                        <groupId>com.example.preproguard</groupId>
                         <artifactId>scala-library</artifactId>
                     </exclusion>
                 </exclusions>
@@ -311,7 +286,7 @@ So I just added scala library with provided scope.
 
 Conclusions
 ===========
-This is not a perfect solution, cause it complicates project structure, and is not fully atomated, but it works, it saves my time, and hopefully will save yours. If there is a plugin or a build tool that does job better, please let us know. May the Force be with you.
+This is not a perfect solution, cause it complicates project structure, and is not fully atomated, but it works, it saves my time, and hopefully will save yours. If there is a plugin or a build tool that does job better, please let us know.
 
 
 
