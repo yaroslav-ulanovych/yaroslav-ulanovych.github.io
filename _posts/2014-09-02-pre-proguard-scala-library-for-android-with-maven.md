@@ -223,7 +223,7 @@ library in proguard profile
 ...
 {% endhighlight %}
 
-Exclude shrunk scala library and include orignal one in proguard profile
+Exclude shrunk scala library and include original one in proguard profile
 
 {% highlight xml %}
 ...
@@ -286,7 +286,7 @@ So I just added scala library with provided scope.
 
 Conclusions
 ===========
-This is not a perfect solution, cause it complicates project structure, and is not fully atomated, but it works, it saves my time, and hopefully will save yours. If there is a plugin or a build tool that does job better, please let us know.
+This is not a perfect solution, cause it complicates project structure, and is not fully automated, but it works, it saves my time, and hopefully will save yours. If there is a plugin or a build tool that does job better, please let me know.
 
 
 
