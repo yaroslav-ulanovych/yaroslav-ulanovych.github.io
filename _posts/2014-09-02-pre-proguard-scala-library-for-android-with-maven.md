@@ -9,6 +9,10 @@ permalink: pre-proguard-scala-library-for-android-with-maven.html
 Intro
 =====
 
+<small>update 09.03.2015: this solution sucks,
+try a [new one]({% post_url 2015-03-09-install-scala-library-on-android %})
+</small>
+
 If you use scala for android development,
 you most likely need proguard to work around limitations of dex format.
 But shrinking takes quite an amount of build time, for instance for my project
